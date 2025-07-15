@@ -1,0 +1,13 @@
+package ru.hogwarts.school.service;
+
+import ru.hogwarts.school.model.Student;
+
+import java.util.List;
+
+public interface StudentServiceInterface {
+    Student createStudent(Student student);
+    Student findStudent(long id);
+    Student editStudent(Student student);
+    Student deleteStudent(long id);
+    List<Student> findByAge(int age);
+}
