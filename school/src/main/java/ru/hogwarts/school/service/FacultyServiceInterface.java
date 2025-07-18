@@ -6,8 +6,18 @@ import java.util.List;
 
 public interface FacultyServiceInterface {
     Faculty createFaculty(Faculty faculty);
+
     Faculty findFaculty(long id);
+
     Faculty editFaculty(Faculty faculty);
-    Faculty deleteFaculty(long id);
-    List<Faculty> findByColor(String color);
+
+    void deleteFaculty(long id);
+
+    List<Faculty> findByColorIgnoreCase(String color);
+
+    List<Faculty> findByNameOrColorIgnoreCase(String name, String color);
+
+    Object getFacultyById(long l);
+
+    Object getFacultiesByColor(String red);
 }
