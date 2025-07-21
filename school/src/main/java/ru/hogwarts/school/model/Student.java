@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.springframework.http.HttpStatus;
+
 
 import java.util.Objects;
 
@@ -69,13 +69,5 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
-    }
-
-    public HttpStatus getStatusCode() {
-        return null;
-    }
-
-    public Student getBody() {
-        return null;
     }
 }

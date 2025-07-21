@@ -13,11 +13,7 @@ public interface FacultyServiceInterface {
 
     void deleteFaculty(long id);
 
-    List<Faculty> findByColorIgnoreCase(String color);
 
     List<Faculty> findByNameOrColorIgnoreCase(String name, String color);
 
-    Object getFacultyById(long l);
-
-    Object getFacultiesByColor(String red);
 }

@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -27,6 +29,9 @@ public class StudentServiceImpl implements StudentServiceInterface {
 
     @Override
     public Student editStudent(Student student) {
+        if (!studentRepository.existsById(student.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found with id: " + student.getId());
+        }
         return studentRepository.save(student);
     }
 

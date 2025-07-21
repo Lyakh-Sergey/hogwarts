@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.springframework.http.HttpStatus;
 
 import java.util.Objects;
 
@@ -69,17 +68,5 @@ public class Faculty {
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
                 '}';
-    }
-
-    public int getStatusCodeValue() {
-        return 0;
-    }
-
-    public Faculty getBody() {
-        return null;
-    }
-
-    public HttpStatus getStatusCode() {
-        return null;
     }
 }

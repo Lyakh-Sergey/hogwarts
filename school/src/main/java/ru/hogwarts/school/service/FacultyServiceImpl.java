@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
@@ -26,6 +28,9 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
 
     @Override
     public Faculty editFaculty(Faculty faculty) {
+        if (!facultyRepository.existsById(faculty.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found with id: " + faculty.getId());
+        }
         return facultyRepository.save(faculty);
     }
 
@@ -38,22 +43,8 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
     }
 
     @Override
-    public List<Faculty> findByColorIgnoreCase(String color) {
-        return facultyRepository.findByColorContainingIgnoreCase(color);
-    }
-
-    @Override
     public List<Faculty> findByNameOrColorIgnoreCase(String name, String color) {
         return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 
-    @Override
-    public Object getFacultyById(long l) {
-        return null;
-    }
-
-    @Override
-    public Object getFacultiesByColor(String red) {
-        return null;
-    }
 }
