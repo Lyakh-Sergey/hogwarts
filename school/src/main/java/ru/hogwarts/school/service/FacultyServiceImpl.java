@@ -23,7 +23,8 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
 
     @Override
     public Faculty findFaculty(long id) {
-        return facultyRepository.findById(id).orElse(null);
+        return facultyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
     }
 
     @Override
@@ -48,3 +49,4 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
     }
 
 }
+

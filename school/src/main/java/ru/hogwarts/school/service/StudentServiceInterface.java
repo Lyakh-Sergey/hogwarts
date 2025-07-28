@@ -16,4 +16,6 @@ public interface StudentServiceInterface {
     List<Student> findByAge(int age);
 
     List<Student> findByNameIgnoreCase(String name);
+
+    List<Student> findByAgeBetween(int minAge, int maxAge);
 }
