@@ -1,6 +1,8 @@
 package ru.hogwarts.school.controller;
 
+import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
+@Transactional(readOnly = true)
 public class FacultyController {
     private final FacultyServiceInterface facultyService;
 
@@ -58,6 +61,7 @@ public class FacultyController {
         if (faculty == null) {
             return ResponseEntity.notFound().build();
         }
+        Hibernate.initialize(faculty.getStudents());
         return ResponseEntity.ok(faculty.getStudents());
     }
 }
