@@ -2,7 +2,6 @@ package ru.hogwarts.school.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -34,9 +33,8 @@ public class StudentServiceImpl implements StudentServiceInterface {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Student findStudent(long id) {
-        return studentRepository.findByIdWithDetails(id).orElse(null);
+        return studentRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -1,70 +1,61 @@
 package ru.hogwarts.school.controller;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
+import ru.hogwarts.school.service.AvatarServiceImpl;
 import ru.hogwarts.school.service.AvatarServiceInterface;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/avatar")
 public class AvatarController {
     private final AvatarServiceInterface avatarService;
 
-    public AvatarController(AvatarServiceInterface avatarService) {
-        this.avatarService = avatarService;
+    public AvatarController(AvatarServiceImpl avatarServiceImpl) {
+        this.avatarService = avatarServiceImpl;
     }
 
-    @PostMapping(value = "/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Long> uploadAvatar(@PathVariable Long studentId,
-                                             @RequestParam MultipartFile file) throws IOException {
-        try {
-            Long avatarId = avatarService.uploadAvatar(studentId, file);
-            return ResponseEntity.ok(avatarId);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @PostMapping(value = "/{Id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadAvatar(@PathVariable Long Id, @RequestParam MultipartFile avatar) throws IOException {
+        avatarService.uploadAvatar(Id, avatar);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/{studentId}/from-db")
-    public ResponseEntity<?> getAvatarFromDb(@PathVariable Long studentId) {
-        try {
-            Avatar avatar = avatarService.getAvatarFromDb(studentId);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
-            headers.setContentLength(avatar.getFileSize());
-            return ResponseEntity.ok().headers(headers).body(avatar.getData());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @GetMapping(value = "/{Id}/avatar/preview")
+    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long Id) {
+
+        Avatar avatar = avatarService.findAvatar(Id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
+        headers.setContentLength(avatar.getData().length);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
+
     }
 
-    @GetMapping(value = "/{studentId}/from-disk")
-    public ResponseEntity<byte[]> getAvatarFromDisk(@PathVariable Long studentId) {
-        try {
-            byte[] avatarData = avatarService.getAvatarFromDisk(studentId);
-            Avatar avatar = avatarService.getAvatarFromDb(studentId);
+    @GetMapping(value = "/{Id}/avatar")
+    public void downloadAvatar(@PathVariable Long Id, HttpServletResponse response) throws IOException {
+        Avatar avatar = avatarService.findAvatar(Id);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
-            headers.setContentLength(avatar.getFileSize());
+        Path path = Path.of(avatar.getFilePath());
 
-            return ResponseEntity.ok().headers(headers).body(avatarData);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        try (InputStream is = Files.newInputStream(path);
+             OutputStream os = response.getOutputStream()) {
+            response.setStatus(200);
+            response.setContentType(avatar.getMediaType());
+            response.setContentLength((int) avatar.getFileSize());
+            is.transferTo(os);
         }
     }
 }

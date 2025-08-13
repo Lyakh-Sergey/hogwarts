@@ -11,10 +11,8 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
     @Lob
-    @Basic(fetch = FetchType.LAZY)
     private byte[] data;
     @OneToOne
-    @JoinColumn(name = "student_id")
     private Student student;
 
     public Avatar() {

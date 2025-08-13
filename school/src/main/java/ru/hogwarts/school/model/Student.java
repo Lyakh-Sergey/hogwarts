@@ -18,9 +18,9 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Avatar avatar;
+
+//    @JsonIgnore
+//    private Avatar avatar;
 
     public Student() {
     }
@@ -63,13 +63,13 @@ public class Student {
         this.faculty = faculty;
     }
 
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
+//    public Avatar getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(Avatar avatar) {
+//        this.avatar = avatar;
+//    }
 
     @Override
     public boolean equals(Object o) {
