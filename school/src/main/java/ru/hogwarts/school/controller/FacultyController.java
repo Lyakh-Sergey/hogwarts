@@ -44,7 +44,6 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/search")
     public ResponseEntity<List<Faculty>> searchFaculties(
             @RequestParam(required = false) String name,
