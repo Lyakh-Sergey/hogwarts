@@ -13,7 +13,6 @@ public interface FacultyServiceInterface {
 
     void deleteFaculty(long id);
 
-
     List<Faculty> findByNameOrColorIgnoreCase(String name, String color);
 
 }

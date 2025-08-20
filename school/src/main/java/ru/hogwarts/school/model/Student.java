@@ -19,8 +19,6 @@ public class Student {
     private Faculty faculty;
 
 
-//    @JsonIgnore
-//    private Avatar avatar;
 
     public Student() {
     }
@@ -63,13 +61,6 @@ public class Student {
         this.faculty = faculty;
     }
 
-//    public Avatar getAvatar() {
-//        return avatar;
-//    }
-//
-//    public void setAvatar(Avatar avatar) {
-//        this.avatar = avatar;
-//    }
 
     @Override
     public boolean equals(Object o) {
