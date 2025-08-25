@@ -6,9 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
-
 import java.util.List;
-
 
 @Service
 public class StudentServiceImpl implements StudentServiceInterface {
@@ -18,6 +16,20 @@ public class StudentServiceImpl implements StudentServiceInterface {
     public StudentServiceImpl(StudentRepository studentRepository, FacultyServiceInterface facultyService) {
         this.studentRepository = studentRepository;
         this.facultyService = facultyService;
+    }
+    @Override
+    public Integer getTotalNumberOfStudents() {
+        return studentRepository.getTotalNumberOfStudents();
+    }
+
+    @Override
+    public Double getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    @Override
+    public List<Student> findLastFiveStudents() {
+        return studentRepository.findLastFiveStudents();
     }
 
     @Override

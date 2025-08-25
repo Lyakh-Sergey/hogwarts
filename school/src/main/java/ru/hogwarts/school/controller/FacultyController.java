@@ -54,11 +54,7 @@ public class FacultyController {
 
     @GetMapping("/{id}/students")
     public ResponseEntity<List<Student>> getFacultyStudents(@PathVariable Long id) {
-        Faculty faculty = facultyService.findFaculty(id);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Hibernate.initialize(faculty.getStudents());
+        Faculty faculty = facultyService.findFacultyWithStudents(id);
         return ResponseEntity.ok(faculty.getStudents());
     }
 }
