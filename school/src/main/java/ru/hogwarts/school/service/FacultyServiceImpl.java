@@ -48,5 +48,10 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
         return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 
+    @Override
+    public Faculty findFacultyWithStudents(long id) {
+        return facultyRepository.findByIdWithStudents(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found"));
+    }
 }
 

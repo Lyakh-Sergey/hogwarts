@@ -15,4 +15,5 @@ public interface FacultyServiceInterface {
 
     List<Faculty> findByNameOrColorIgnoreCase(String name, String color);
 
+    Faculty findFacultyWithStudents(long id);
 }

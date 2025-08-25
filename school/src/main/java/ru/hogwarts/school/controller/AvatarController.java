@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarServiceImpl;
-import ru.hogwarts.school.service.AvatarServiceInterface;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/avatar")
 public class AvatarController {
-    private final AvatarServiceInterface avatarService;
+    private final AvatarServiceImpl avatarService;
 
     public AvatarController(AvatarServiceImpl avatarServiceImpl) {
         this.avatarService = avatarServiceImpl;
@@ -57,5 +57,10 @@ public class AvatarController {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @GetMapping
+    public List<Avatar> getAvatarsByPage(@RequestParam int page, @RequestParam int size) {
+        return avatarService.getAvatarsByPage(page, size);
     }
 }
