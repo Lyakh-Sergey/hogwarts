@@ -90,4 +90,14 @@ public class StudentController {
     public List<Student> findLastFiveStudents() {
         return studentService.findLastFiveStudents();
     }
+
+    @GetMapping("/names-starting-with-a")
+    public List<String> getStudentNamesStartingWithA() {
+        return studentService.getStudentNamesStartingWithA();
+    }
+
+    @GetMapping("/average-age-students")
+    public Double getAverageAgeStudents() {
+        return studentService.getAverageAgeStudents();
+    }
 }
