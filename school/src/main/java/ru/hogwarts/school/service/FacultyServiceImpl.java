@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -70,6 +71,15 @@ public class FacultyServiceImpl implements FacultyServiceInterface {
                     logger.error("Faculty with id={} not found", id);
                     return new ResponseStatusException(HttpStatus.NOT_FOUND, "Faculty not found");
                 });
+    }
+
+    @Override
+    public String getLongestFacultyName() {
+        logger.info("Was invoked method for getting longest faculty name");
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
     }
 }
 
