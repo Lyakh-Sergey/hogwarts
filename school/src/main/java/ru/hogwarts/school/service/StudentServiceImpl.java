@@ -121,4 +121,28 @@ public class StudentServiceImpl implements StudentServiceInterface {
                 .average()
                 .orElse(0.0);
     }
+
+    @Override
+    public List<Student> getFirstSixStudents() {
+        logger.info("Was invoked method for getting first six students");
+        return studentRepository.findAll().stream()
+                .limit(6)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void printStudentName(Student student) {
+        System.out.println("Student: " + student.getName() + " (Thread: " + Thread.currentThread().getName() + ")");
+    }
+
+    @Override
+    public synchronized void printStudentNameSynchronized(Student student) {
+        try {
+            // Имитация длительной операции
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("Student: " + student.getName() + " (Thread: " + Thread.currentThread().getName() + ")");
+    }
 }
