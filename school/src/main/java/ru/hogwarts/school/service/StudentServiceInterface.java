@@ -18,4 +18,8 @@ public interface StudentServiceInterface {
 
     List<String> getStudentNamesStartingWithA();
     Double getAverageAgeStudents();
+
+    List<Student> getFirstSixStudents();
+    void printStudentName(Student student);
+    void printStudentNameSynchronized(Student student);
 }
